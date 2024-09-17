@@ -32,7 +32,12 @@ public interface PropertyRepository extends CrudRepository<Property, Integer> {
             "p.postedOn AS postedOn, p.features AS features, p.imageUrl AS imageUrl, " +
             "p.maxGuests AS maxGuests FROM Property p")
     List<PropertyDTO> findAllPropertiesAsDTO();
-
+    @Query(value = "SELECT p.propertyId AS propertyId, p.propertyName AS propertyName, p.address1 AS address1, p.address2 AS address2, " +
+            "p.area AS area, p.city AS city, p.state AS state, p.zipcode AS zipcode, " +
+            "p.typeOfProperty AS typeOfProperty, p.description AS description, p.rent AS rent, " +
+            "p.securityDeposit AS securityDeposit, p.howOldProperty AS howOldProperty, " +
+            "p.postedOn AS postedOn, p.features AS features, p.imageUrl AS imageUrl, " +
+            "p.maxGuests AS maxGuests FROM Property p")
     List<PropertyDTO> findBy();
 
     // Find property by ID as DTO

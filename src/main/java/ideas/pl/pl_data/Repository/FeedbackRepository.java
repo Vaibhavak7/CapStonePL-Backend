@@ -16,4 +16,7 @@ public interface FeedbackRepository extends CrudRepository<Feedback,Integer> {
     // Find feedback by ID
     @Query("SELECT u FROM Feedback u WHERE u.feedbackId = :id")
     Optional<FeedbackDTO> findFeedbackById(@Param("id") int id);
+
+    @Query("SELECT u FROM Feedback u WHERE u.property.propertyId = :id")
+    List<FeedbackDTO> findFeedbackByPropertyId(@Param("id") int id);
 }

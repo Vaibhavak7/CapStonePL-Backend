@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Transactional
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/properties")
 public class PropertyController {
 

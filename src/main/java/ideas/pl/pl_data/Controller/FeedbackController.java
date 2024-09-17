@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/feedbacks")
 public class FeedbackController {
@@ -39,7 +39,14 @@ public class FeedbackController {
         return feedback.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
-
+    @GetMapping("/property/{propertyId}")
+    public ResponseEntity<List<FeedbackDTO>> getFeedbackByPropertyId(@PathVariable int propertyId) {
+        List<FeedbackDTO> feedbacks = feedbackService.findFeedbackByPropertyId(propertyId);
+        if (feedbacks.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(feedbacks);
+    }
     // Update a feedback
     @PutMapping("/{feedbackId}")
     public ResponseEntity<Feedback> updateFeedback(@PathVariable int feedbackId, @RequestBody Feedback updatedFeedback) {

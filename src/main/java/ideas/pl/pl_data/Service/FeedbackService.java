@@ -30,6 +30,10 @@ public class FeedbackService {
     public Optional<FeedbackDTO> getFeedbackById(int feedbackId) {
         return feedbackRepository.findFeedbackById(feedbackId);
     }
+    public List<FeedbackDTO> findFeedbackByPropertyId(int feedbackId) {
+        return feedbackRepository.findFeedbackByPropertyId(feedbackId);
+    }
+
 
     // Update a feedback
     public Feedback updateFeedback(int feedbackId, Feedback updatedFeedback) {
