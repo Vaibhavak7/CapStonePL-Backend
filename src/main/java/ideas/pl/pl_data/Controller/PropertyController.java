@@ -27,6 +27,11 @@ public class PropertyController {
         return propertyService.getAllProperties();
     }
 
+    @GetMapping({"/featuers"})
+    public List<String> getFeatuers() {
+        return propertyService.featuers();
+    }
+
     // Get property by ID
     @GetMapping("/{propertyId}")
     public ResponseEntity<PropertyDTO> getPropertyById(@PathVariable int propertyId) {
@@ -34,6 +39,13 @@ public class PropertyController {
         return property.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+    @GetMapping("/search/{string1}")
+    public List<PropertyDTO> getProperties(@PathVariable("string1") String string1) {
+        // Process the strings as needed
+        return propertyService.getAllPropertiesBySearch(string1);
+    }
+
     // Get property by ID with Owner Details
     @GetMapping("/owner/{propertyId}")
     public ResponseEntity<PropertyDTO> getPropertyByIdWithOwner(@PathVariable int propertyId) {

@@ -1,5 +1,6 @@
 package ideas.pl.pl_data.Filters;
 import ideas.pl.pl_data.Util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,9 +34,23 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+//        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+//            jwt = authorizationHeader.substring(7);
+//            username = jwtUtil.extractUsername(jwt);
+//        }
+        if (!"OPTIONS".equalsIgnoreCase(request.getMethod()) && authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+            try {
+                username = jwtUtil.extractUsername(jwt);
+            } catch (Exception e) {
+                if (e instanceof ExpiredJwtException) {
+                    System.out.println("Error");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
+                } else {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -53,6 +68,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 System.out.println("JWT Token is invalid");
             }
         }
-        chain.doFilter(request, response);
+        String originHeader = request.getHeader("origin");
+        response.setHeader("Access-Control-Allow-Origin", originHeader);
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            chain.doFilter(request, response);
+        }
+
     }
 }
+

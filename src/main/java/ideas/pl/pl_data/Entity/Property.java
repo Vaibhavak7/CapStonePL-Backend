@@ -33,6 +33,7 @@ public class Property {
     private String state;
     private String zipcode;
     private String typeOfProperty;
+    @Column(length = 600)
     private String description;
     private float rent;
     private float securityDeposit;

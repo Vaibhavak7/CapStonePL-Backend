@@ -24,6 +24,10 @@ public class PropertyService {
         return propertyRepository.findBy();
     }
 
+    public List<PropertyDTO> getAllPropertiesBySearch(String city) {
+        return propertyRepository.findByCityContainingIgnoreCase(city);
+    }
+
     // Get property by ID as DTO
     public Optional<PropertyDTO> getPropertyById(int propertyId) {
         return propertyRepository.findByPropertyId(propertyId);
@@ -62,7 +66,10 @@ public class PropertyService {
 //            return propertyRepository.save(existingProperty);
 //        });
 //    }
-
+    public List<String> featuers()
+    {
+        return propertyRepository.findByFeatuers();
+    }
     // Delete property by ID
     public void deleteProperty(int propertyId) {
         propertyRepository.deleteById(propertyId);
