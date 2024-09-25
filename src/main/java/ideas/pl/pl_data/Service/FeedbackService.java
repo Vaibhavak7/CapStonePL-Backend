@@ -1,11 +1,14 @@
 package ideas.pl.pl_data.Service;
 
 import ideas.pl.pl_data.DTO.FeedbackDTO;
+import ideas.pl.pl_data.Entity.Bookmark;
 import ideas.pl.pl_data.Entity.Feedback;
 import ideas.pl.pl_data.Exception.ResourceNotFoundException;
 import ideas.pl.pl_data.Repository.FeedbackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +20,21 @@ public class FeedbackService {
     private FeedbackRepository feedbackRepository;
 
     // Create a new feedback
-    public Feedback createFeedback(Feedback feedback) {
-        return feedbackRepository.save(feedback);
+    public boolean createFeedback(Feedback feedback) {
+
+
+        List<FeedbackDTO> existingFeedback = feedbackRepository.findByProperty_PropertyIdAndUser_UserId(feedback.getProperty().getPropertyId(), feedback.getUser().getUserId());
+        int exists = existingFeedback.size();
+        if (exists!=0) {
+            return false; // Bookmark already exists
+        }
+
+        // Save the new bookmark
+        feedbackRepository.save(feedback);
+        return true; // Successfully saved
     }
+
+
 
     // Get all feedbacks
     public List<FeedbackDTO> findBy() {
@@ -28,10 +43,10 @@ public class FeedbackService {
 
     // Get a feedback by ID
     public Optional<FeedbackDTO> getFeedbackById(int feedbackId) {
-        return feedbackRepository.findFeedbackById(feedbackId);
+        return feedbackRepository.findByFeedbackId(feedbackId);
     }
     public List<FeedbackDTO> findFeedbackByPropertyId(int feedbackId) {
-        return feedbackRepository.findFeedbackByPropertyId(feedbackId);
+        return feedbackRepository.findByProperty_PropertyId(feedbackId);
     }
 
 
@@ -51,4 +66,7 @@ public class FeedbackService {
     public void deleteFeedback(int feedbackId) {
         feedbackRepository.deleteById(feedbackId);
     }
+
+    public Double getAverageRatingByMovie(int movieId) {
+        return feedbackRepository.findAverageRatingByPropertyId(movieId);}
 }

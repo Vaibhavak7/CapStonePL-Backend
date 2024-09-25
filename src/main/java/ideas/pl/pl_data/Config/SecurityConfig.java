@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/users/login", "api/users/register", "/h2-console/**").permitAll()
-                        .requestMatchers("/api/properties","/api/properties/**","/feedbacks/**").permitAll() // Allow public access to /api/properties
+                        .requestMatchers("/api/properties","/api/properties/**","/feedbacks/**","/api/users","/api/users/**").permitAll() // Allow public access to /api/properties
                         .requestMatchers("/owner/**").hasRole("OWNER")
                         .requestMatchers("/users/**").hasRole("USER")
                         .anyRequest().authenticated()

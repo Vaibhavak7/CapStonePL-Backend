@@ -1,6 +1,7 @@
 package ideas.pl.pl_data.Controller;
 
 import ideas.pl.pl_data.DTO.FeedbackDTO;
+import ideas.pl.pl_data.Entity.Bookmark;
 import ideas.pl.pl_data.Entity.Feedback;
 import ideas.pl.pl_data.Service.FeedbackService;
 import ideas.pl.pl_data.Exception.ResourceNotFoundException;
@@ -9,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @CrossOrigin("*")
 @RestController
@@ -26,11 +29,31 @@ public class FeedbackController {
     }
 
     // Create a new feedback
-    @PostMapping
-    public ResponseEntity<Feedback> createFeedback(@RequestBody Feedback feedback) {
-        Feedback newFeedback = feedbackService.createFeedback(feedback);
-        return new ResponseEntity<>(newFeedback, HttpStatus.CREATED);
+//    @PostMapping
+//    public ResponseEntity<Map<String, Object>> createFeedback(@RequestBody Feedback feedback) {
+//        Feedback newFeedback = feedbackService.createFeedback(feedback);
+//
+//        // Create a response map
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("message", "Feedback submitted successfully.");
+//        response.put("feedback", newFeedback);
+//
+//        return new ResponseEntity<>(response, HttpStatus.CREATED);
+//    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, String>> createFeedback(@RequestBody Feedback feedback) {
+        boolean isSaved = feedbackService.createFeedback(feedback);
+        Map<String, String> response = new HashMap<>();
+        if (isSaved) {
+            response.put("message", "Review saved successfully.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } else {
+            response.put("message", "Review already exists.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+        }
     }
+
 
     // Get a feedback by ID
     @GetMapping("/{feedbackId}")
@@ -47,6 +70,10 @@ public class FeedbackController {
         }
         return ResponseEntity.ok(feedbacks);
     }
+
+    @GetMapping("/movie/{movieId}/avg")
+    public Double getAverageRatingByMovie(@PathVariable int movieId) {
+        return feedbackService.getAverageRatingByMovie(movieId);}
     // Update a feedback
     @PutMapping("/{feedbackId}")
     public ResponseEntity<Feedback> updateFeedback(@PathVariable int feedbackId, @RequestBody Feedback updatedFeedback) {

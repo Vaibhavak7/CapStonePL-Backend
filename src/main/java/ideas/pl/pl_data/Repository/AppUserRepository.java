@@ -11,8 +11,11 @@ import java.util.Optional;
 
 public interface AppUserRepository extends CrudRepository<AppUser,Integer> {
     List<AppUserProjection> findBy();
-    @Query("SELECT u FROM AppUser u WHERE u.userId = :id")
-    Optional<AppUserProjection> findProjectedById(@Param("id") int id);
+//    @Query("SELECT u FROM AppUser u WHERE u.userId = :id")
+//    Optional<AppUserProjection> findProjectedById(@Param("id") int id);
+
+    Optional<AppUserProjection> findByUserId(int userId);
+
 
     Optional<AppUser> findByEmail(String email);
 }

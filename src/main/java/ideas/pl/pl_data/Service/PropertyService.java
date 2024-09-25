@@ -17,9 +17,9 @@ public class PropertyService {
     private PropertyRepository propertyRepository;
 
     // Get all properties as DTOs
-    public List<PropertyDTO> getAllProperties1() {
-        return propertyRepository.findAllPropertiesAsDTO();
-    }
+//    public List<PropertyDTO> getAllProperties1() {
+//        return propertyRepository.findAllPropertiesAsDTO();
+//    }
     public List<PropertyDTO> getAllProperties() {
         return propertyRepository.findBy();
     }
@@ -34,7 +34,7 @@ public class PropertyService {
     }
 
     public Optional<PropertyDTO> getPropertyByIdWithOwner(int propertyId) {
-        return propertyRepository.findByPropertyIdWithOwner(propertyId);
+        return propertyRepository.findByPropertyId(propertyId);
     }
 
     // Create a new property
@@ -77,15 +77,15 @@ public class PropertyService {
 
     // Additional search methods
     public List<PropertyDTO> findByFeatures(String feature) {
-        return propertyRepository.findByFeatures(feature);
+        return propertyRepository.findByFeaturesContaining(feature);
     }
 
     public List<PropertyDTO> findByPropertyNameLike(String name) {
-        return propertyRepository.findByPropertyNameLike(name);
+        return propertyRepository.findByPropertyNameContainingIgnoreCase(name);
     }
 
     public List<PropertyDTO> findByAddressLike(String address) {
-        return propertyRepository.findByAddressLike(address);
+        return propertyRepository.findByAddress1ContainingOrAddress2Containing(address,address);
     }
 }
 

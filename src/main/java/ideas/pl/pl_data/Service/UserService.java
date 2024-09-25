@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
 
     // Get user by ID
     public Optional<AppUserProjection> getUserById(int id) {
-        return appUserRepository.findProjectedById(id);
+        return appUserRepository.findByUserId(id);
     }
 
     // Create new user

@@ -28,7 +28,7 @@ public class Impl {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(Impl.class, args);
     }
 
 //    @Override
