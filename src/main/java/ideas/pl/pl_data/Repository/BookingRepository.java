@@ -17,6 +17,9 @@ public interface BookingRepository extends CrudRepository<Booking, Integer> {
 
     List<BookingDTO> findByUser_UserId(int userId);
 
+
+    List<BookingDTO> findByProperty_PropertyId(int propertyId);
+
     @Query("SELECT b FROM Booking b WHERE b.property.propertyId = :propertyId " +
             "AND ((b.startDate < :endDate AND b.endDate > :startDate) OR " +
             "(b.startDate = :endDate))")

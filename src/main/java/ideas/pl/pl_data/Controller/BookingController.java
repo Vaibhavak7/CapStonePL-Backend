@@ -24,11 +24,19 @@ public class BookingController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<BookingDTO>> getBookmarksByUserId(@PathVariable int userId) {
-        List<BookingDTO> bookmarks = bookingService.findByUserId(userId);
-        if (bookmarks.isEmpty()) {
+        List<BookingDTO> bookings = bookingService.findByUserId(userId);
+        if (bookings.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(bookmarks);
+        return ResponseEntity.ok(bookings);
+    }
+    @GetMapping("/property/{propertyId}")
+    public ResponseEntity<List<BookingDTO>> getBookmarksByPropertyId(@PathVariable int propertyId) {
+        List<BookingDTO> bookings = bookingService.findByPropertyId(propertyId);
+        if (bookings.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(bookings);
     }
 
     @PostMapping("/create")

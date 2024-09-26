@@ -32,6 +32,10 @@ public class BookingService {
         return bookingRepository.findByUser_UserId(id);
     }
 
+    public List<BookingDTO> findByPropertyId(int id) {
+        return bookingRepository.findByProperty_PropertyId(id);
+    }
+
     public String bookProperty(Booking bookingRequestDTO) {
         // Check for existing bookings for the same property
         List<Booking> existingBookings = bookingRepository.findByPropertyId(
