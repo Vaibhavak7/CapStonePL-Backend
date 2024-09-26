@@ -32,5 +32,21 @@ public class BookmarkService {
         return true; // Successfully saved
     }
 
+    public boolean deleteBookmark(int userId, int propertyId) {
+        Optional<Bookmark> optionalBookmark = bookmarkRepository.findByUser_UserIdAndProperty_PropertyId(userId, propertyId);
+
+        if (optionalBookmark.isPresent()) {
+            // Extract the Bookmark entity from the Optional
+            Bookmark bookmark = optionalBookmark.get();
+
+            // Delete the Bookmark
+            bookmarkRepository.delete(bookmark);  // You can also use deleteById if you just need the ID
+
+            return true; // Successfully deleted
+        } else {
+            return false; // Bookmark not found
+        }
+    }
+
 
 }

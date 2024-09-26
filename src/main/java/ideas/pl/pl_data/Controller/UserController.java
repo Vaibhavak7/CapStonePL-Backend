@@ -69,9 +69,9 @@ public class UserController {
         String jwtToken = jwtUtil.generateToken(userDetails);
 
         Optional<AppUser> userSaved = userRepository.findByEmail(loginRequest.getEmail());
-        record UserResponse (int userId,String email,String password,String role,String token){};
+        record UserResponse (int userId,String email,String password,String role,String token,String userName){};
 
-        UserResponse u = new UserResponse(userSaved.get().getUserId(),userSaved.get().getEmail(),userSaved.get().getPassword(),userSaved.get().getRole(),jwtToken);
+        UserResponse u = new UserResponse(userSaved.get().getUserId(),userSaved.get().getEmail(),userSaved.get().getPassword(),userSaved.get().getRole(),jwtToken,userSaved.get().getUserName());
         return ResponseEntity.ok().body(u);
     }
 

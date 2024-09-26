@@ -41,6 +41,21 @@ public class BookmarkController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Map<String, String>> deleteBookmark(@RequestParam int userId, @RequestParam int propertyId) {
+        boolean isDeleted = bookmarkService.deleteBookmark(userId, propertyId);
+
+        Map<String, String> response = new HashMap<>();
+
+        if (isDeleted) {
+            response.put("message", "Bookmark deleted successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK); // HTTP 200
+        } else {
+            response.put("message", "Bookmark not found");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // HTTP 404
+        }
+    }
+
 
 
 }
