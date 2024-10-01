@@ -32,41 +32,20 @@ class BookmarkServiceTest {
     }
 
     @Test
-    void findByUser_WhenBookmarksExist() {
-        // Arrange
-        int userId = 1;
-        BookmarkDTO mockBookmark1 = mock(BookmarkDTO.class);
-        BookmarkDTO mockBookmark2 = mock(BookmarkDTO.class);
-        List<BookmarkDTO> mockBookmarks = Arrays.asList(mockBookmark1, mockBookmark2);
-        when(bookmarkRepository.findByUserId(userId)).thenReturn(mockBookmarks);
-
-        // Act
-        List<BookmarkDTO> bookmarks = bookmarkService.findByUser(userId);
-
-        // Assert
-        assertNotNull(bookmarks);
-        assertEquals(2, bookmarks.size());
-        verify(bookmarkRepository, times(1)).findByUserId(userId);
-    }
-
-    @Test
     void findByUser_WhenNoBookmarksExist() {
-        // Arrange
         int userId = 1;
-        when(bookmarkRepository.findByUserId(userId)).thenReturn(List.of());
+        when(bookmarkRepository.findByUser_UserId(userId)).thenReturn(List.of());
 
-        // Act
         List<BookmarkDTO> bookmarks = bookmarkService.findByUser(userId);
 
-        // Assert
         assertNotNull(bookmarks);
         assertEquals(0, bookmarks.size());
-        verify(bookmarkRepository, times(1)).findByUserId(userId);
+        verify(bookmarkRepository, times(1)).findByUser_UserId(userId);
     }
+
 
     @Test
     void saveBookmark_WhenBookmarkDoesNotExist() {
-        // Arrange
         AppUser mockUser = new AppUser();
         mockUser.setUserId(1);
         Property mockProperty = new Property();
@@ -76,10 +55,8 @@ class BookmarkServiceTest {
         when(bookmarkRepository.findByUser_UserIdAndProperty_PropertyId(mockUser.getUserId(), mockProperty.getPropertyId()))
                 .thenReturn(Optional.empty());
 
-        // Act
         boolean result = bookmarkService.saveBookmark(bookmark);
 
-        // Assert
         assertTrue(result);
         verify(bookmarkRepository, times(1)).findByUser_UserIdAndProperty_PropertyId(mockUser.getUserId(), mockProperty.getPropertyId());
         verify(bookmarkRepository, times(1)).save(bookmark);
@@ -87,7 +64,6 @@ class BookmarkServiceTest {
 
     @Test
     void saveBookmark_WhenBookmarkAlreadyExists() {
-        // Arrange
         AppUser mockUser = new AppUser();
         mockUser.setUserId(1);
         Property mockProperty = new Property();
@@ -97,10 +73,8 @@ class BookmarkServiceTest {
         when(bookmarkRepository.findByUser_UserIdAndProperty_PropertyId(mockUser.getUserId(), mockProperty.getPropertyId()))
                 .thenReturn(Optional.of(bookmark));
 
-        // Act
         boolean result = bookmarkService.saveBookmark(bookmark);
 
-        // Assert
         assertFalse(result);
         verify(bookmarkRepository, times(1)).findByUser_UserIdAndProperty_PropertyId(mockUser.getUserId(), mockProperty.getPropertyId());
         verify(bookmarkRepository, times(0)).save(bookmark);

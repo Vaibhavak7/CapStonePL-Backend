@@ -22,11 +22,6 @@ public class BookingService {
     @Autowired
     BookingRepository bookingRepository;
 
-    @Autowired
-    PropertyService propertyService;
-
-    @Autowired
-    UserService userService;
 
     public List<BookingDTO> findByUserId(int id) {
         return bookingRepository.findByUser_UserId(id);
@@ -37,7 +32,6 @@ public class BookingService {
     }
 
     public String bookProperty(Booking bookingRequestDTO) {
-        // Check for existing bookings for the same property
         List<Booking> existingBookings = bookingRepository.findByPropertyId(
                 bookingRequestDTO.getProperty().getPropertyId(),
                 bookingRequestDTO.getStartDate(),

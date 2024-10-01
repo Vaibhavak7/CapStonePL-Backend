@@ -22,25 +22,13 @@ public class FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
 
-    // Get all feedbacks
+    //TODO:Get all feedbacks
     @GetMapping
     public List<FeedbackDTO> getFeedbacks() {
         return feedbackService.findBy();
     }
 
-    // Create a new feedback
-//    @PostMapping
-//    public ResponseEntity<Map<String, Object>> createFeedback(@RequestBody Feedback feedback) {
-//        Feedback newFeedback = feedbackService.createFeedback(feedback);
-//
-//        // Create a response map
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("message", "Feedback submitted successfully.");
-//        response.put("feedback", newFeedback);
-//
-//        return new ResponseEntity<>(response, HttpStatus.CREATED);
-//    }
-
+    //TODO:Create Feedback
     @PostMapping("/create")
     public ResponseEntity<Map<String, String>> createFeedback(@RequestBody Feedback feedback) {
         boolean isSaved = feedbackService.createFeedback(feedback);
@@ -55,13 +43,15 @@ public class FeedbackController {
     }
 
 
-    // Get a feedback by ID
+    //TODO:Get a feedback by ID
     @GetMapping("/{feedbackId}")
     public ResponseEntity<FeedbackDTO> getFeedbackById(@PathVariable int feedbackId) {
         Optional<FeedbackDTO> feedback = feedbackService.getFeedbackById(feedbackId);
         return feedback.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+    //TODO:Get FeedBack by PropertyId
     @GetMapping("/property/{propertyId}")
     public ResponseEntity<List<FeedbackDTO>> getFeedbackByPropertyId(@PathVariable int propertyId) {
         List<FeedbackDTO> feedbacks = feedbackService.findFeedbackByPropertyId(propertyId);
@@ -71,17 +61,20 @@ public class FeedbackController {
         return ResponseEntity.ok(feedbacks);
     }
 
-    @GetMapping("/movie/{movieId}/avg")
-    public Double getAverageRatingByMovie(@PathVariable int movieId) {
-        return feedbackService.getAverageRatingByMovie(movieId);}
-    // Update a feedback
+    //TODO:Get Avg of Feedback for property
+    @GetMapping("/Property/{PropertyId}/avg")
+    public Double getAverageRatingByPropertyId(@PathVariable int PropertyId) {
+        return feedbackService.getAverageRatingByPropertyId(PropertyId);}
+
+
+    //TODO:Update a feedback
     @PutMapping("/{feedbackId}")
     public ResponseEntity<Feedback> updateFeedback(@PathVariable int feedbackId, @RequestBody Feedback updatedFeedback) {
         Feedback feedback = feedbackService.updateFeedback(feedbackId, updatedFeedback);
         return ResponseEntity.ok(feedback);
     }
 
-    // Delete a feedback
+    //TODO:Delete a feedback
     @DeleteMapping("/{feedbackId}")
     public ResponseEntity<Void> deleteFeedback(@PathVariable int feedbackId) {
         feedbackService.deleteFeedback(feedbackId);

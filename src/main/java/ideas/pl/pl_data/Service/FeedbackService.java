@@ -19,29 +19,22 @@ public class FeedbackService {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
-    // Create a new feedback
     public boolean createFeedback(Feedback feedback) {
-
-
         List<FeedbackDTO> existingFeedback = feedbackRepository.findByProperty_PropertyIdAndUser_UserId(feedback.getProperty().getPropertyId(), feedback.getUser().getUserId());
         int exists = existingFeedback.size();
         if (exists!=0) {
-            return false; // Bookmark already exists
+            return false;
         }
 
-        // Save the new bookmark
         feedbackRepository.save(feedback);
-        return true; // Successfully saved
+        return true;
     }
 
 
-
-    // Get all feedbacks
     public List<FeedbackDTO> findBy() {
         return feedbackRepository.findBy();
     }
 
-    // Get a feedback by ID
     public Optional<FeedbackDTO> getFeedbackById(int feedbackId) {
         return feedbackRepository.findByFeedbackId(feedbackId);
     }
@@ -49,8 +42,6 @@ public class FeedbackService {
         return feedbackRepository.findByProperty_PropertyId(feedbackId);
     }
 
-
-    // Update a feedback
     public Feedback updateFeedback(int feedbackId, Feedback updatedFeedback) {
         return feedbackRepository.findById(feedbackId).map(feedback -> {
             feedback.setRating(updatedFeedback.getRating());
@@ -62,11 +53,10 @@ public class FeedbackService {
         }).orElseThrow(() -> new ResourceNotFoundException("Feedback not found"));
     }
 
-    // Delete a feedback
     public void deleteFeedback(int feedbackId) {
         feedbackRepository.deleteById(feedbackId);
     }
 
-    public Double getAverageRatingByMovie(int movieId) {
-        return feedbackRepository.findAverageRatingByPropertyId(movieId);}
+    public Double getAverageRatingByPropertyId(int PropertyId) {
+        return feedbackRepository.findAverageRatingByPropertyId(PropertyId);}
 }

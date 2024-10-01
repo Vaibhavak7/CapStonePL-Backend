@@ -25,6 +25,7 @@ public class UserController {
 
     @Autowired
     AppUserRepository userRepository;
+
     @Autowired
     private UserService appUserService;
 
@@ -37,13 +38,13 @@ public class UserController {
     @Autowired
     PasswordEncoder bCryptPasswordEncoder;
 
-    // Get all users
+    //TODO:Get all users
     @GetMapping
     public List<AppUserProjection> getAllUsers() {
         return appUserService.getAllUsers();
     }
 
-    // Get user by ID
+    //TODO:Get user by ID
     @GetMapping("/{id}")
     public ResponseEntity<AppUserProjection> getUserById(@PathVariable int id) {
         Optional<AppUserProjection> user = appUserService.getUserById(id);
@@ -51,6 +52,7 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    //TODO: Register User
     @PostMapping("/register")
     public AppUser registerUser(@RequestBody AppUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -58,6 +60,7 @@ public class UserController {
 
     }
 
+    //TODO: Login User
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginDTO loginRequest) {
         authenticationManager.authenticate(
@@ -69,20 +72,20 @@ public class UserController {
         String jwtToken = jwtUtil.generateToken(userDetails);
 
         Optional<AppUser> userSaved = userRepository.findByEmail(loginRequest.getEmail());
-        record UserResponse (int userId,String email,String password,String role,String token,String userName){};
+        record UserResponse (int userId,String email,String password,String role,String token,String userName){}
 
         UserResponse u = new UserResponse(userSaved.get().getUserId(),userSaved.get().getEmail(),userSaved.get().getPassword(),userSaved.get().getRole(),jwtToken,userSaved.get().getUserName());
         return ResponseEntity.ok().body(u);
     }
 
-    // Create new user
+    //TODO:Create new user
     @PostMapping
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) {
         AppUser newUser = appUserService.createUser(appUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    // Update user
+    //TODO:Update user
     @PutMapping("/{id}")
     public ResponseEntity<AppUser> updateUser(@PathVariable int id, @RequestBody AppUser updatedUser) {
         Optional<AppUser> user = appUserService.updateUser(id, updatedUser);
@@ -90,7 +93,7 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // Delete user
+    //TODO:Delete user
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         appUserService.deleteUser(id);

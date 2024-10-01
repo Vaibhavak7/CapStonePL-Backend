@@ -20,7 +20,7 @@ public class BookmarkController {
     @Autowired
     private BookmarkService bookmarkService;
 
-    // Get all bookmarks for a user
+    //TODO:Get all bookmarks for a user
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<BookmarkDTO>> getBookmarksByUserId(@PathVariable int userId) {
         List<BookmarkDTO> bookmarks = bookmarkService.findByUser(userId);
@@ -29,6 +29,8 @@ public class BookmarkController {
         }
         return ResponseEntity.ok(bookmarks);
     }
+
+    //TODO:Create bookmark for a user
     @PostMapping("/create")
     public ResponseEntity<Map<String, String>> saveBookmark(@RequestBody Bookmark bookmark) {
         boolean isSaved = bookmarkService.saveBookmark(bookmark);
@@ -41,6 +43,8 @@ public class BookmarkController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         }
     }
+
+    //TODO:Delete bookmarks for a user
     @DeleteMapping("/delete")
     public ResponseEntity<Map<String, String>> deleteBookmark(@RequestParam int userId, @RequestParam int propertyId) {
         boolean isDeleted = bookmarkService.deleteBookmark(userId, propertyId);
@@ -49,10 +53,10 @@ public class BookmarkController {
 
         if (isDeleted) {
             response.put("message", "Bookmark deleted successfully");
-            return new ResponseEntity<>(response, HttpStatus.OK); // HTTP 200
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("message", "Bookmark not found");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // HTTP 404
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 

@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface AppUserProjection {
-    int getUserId();                // Only retrieve userId
-    String getUserName();           // Retrieve userName
-    String getEmail();           // Retrieve email address
+    int getUserId();
+    String getUserName();
+    String getEmail();
     public String getPassword();
 
     List<FeedbackProjection> getFeedbacks();

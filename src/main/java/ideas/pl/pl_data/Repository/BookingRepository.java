@@ -12,11 +12,7 @@ import java.util.List;
 
 public interface BookingRepository extends CrudRepository<Booking, Integer> {
 
-//    @Query("SELECT b FROM Booking b WHERE b.user.userId = :id")
-//    List<BookingDTO> findByuserId(@Param("id") int id);
-
     List<BookingDTO> findByUser_UserId(int userId);
-
 
     List<BookingDTO> findByProperty_PropertyId(int propertyId);
 
@@ -26,8 +22,5 @@ public interface BookingRepository extends CrudRepository<Booking, Integer> {
     List<Booking> findByPropertyId(@Param("propertyId") int propertyId,
                                    @Param("startDate") LocalDate startDate,
                                    @Param("endDate") LocalDate endDate);
-
-//    List<Booking> findByPropertyPropertyIdAndStartDateLessThanAndEndDateGreaterThanOrStartDate(int propertyId, LocalDate startDate, LocalDate endDate);
-
 
 }

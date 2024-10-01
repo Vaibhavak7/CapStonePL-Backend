@@ -31,27 +31,4 @@ public class Impl {
         SpringApplication.run(Impl.class, args);
     }
 
-//    @Override
-//    public void run(String... args) throws Exception {
-////
-//        List<Feedback> byId = feedbackRepository.findBy();
-//        for(Feedback p: byId)
-//        {
-//            System.out.println(p.getRating());
-//        }
-////
-////        Optional<PropertyDTO> optionalPropertyDTO = propertyRepository.findById(101);
-////
-////        if (optionalPropertyDTO.isPresent()) {
-////            PropertyDTO propertyDTO = optionalPropertyDTO.get();
-////            System.out.println(propertyDTO.getPropertyName());
-////        } else {
-////            System.out.println("Property not found.");
-////        }
-////
-////
-////
-////    }
-////
-//}
 }

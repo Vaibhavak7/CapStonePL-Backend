@@ -31,13 +31,12 @@ public class BookmarkRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        // Create and save test user
+
         user = new AppUser();
         user.setUserName("testUser");
         user.setEmail("testuser@example.com");
         appUserRepository.save(user);
 
-        // Create and save test property
         property = new Property();
         property.setPropertyName("Test Property");
         property.setArea("Test Location");
@@ -53,8 +52,6 @@ public class BookmarkRepositoryTest {
         bookmarkRepository.save(bookmark);
 
         List<BookmarkDTO> bookmarks = bookmarkRepository.findByUser_UserId(user.getUserId());
-//        assertEquals(1, bookmarks.size());
-//        assertEquals(property.getPropertyId(), bookmarks.get(0).getProperty().getPropertyId());
     }
 
     @Test

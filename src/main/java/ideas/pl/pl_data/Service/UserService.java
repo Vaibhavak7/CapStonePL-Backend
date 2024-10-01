@@ -19,7 +19,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private AppUserRepository appUserRepository;
 
-    // Get all users
     public List<AppUserProjection> getAllUsers() {
         return appUserRepository.findBy();
     }
@@ -32,17 +31,14 @@ public class UserService implements UserDetailsService {
         return appUserRepository.save(user);
     }
 
-    // Get user by ID
     public Optional<AppUserProjection> getUserById(int id) {
         return appUserRepository.findByUserId(id);
     }
 
-    // Create new user
     public AppUser createUser(AppUser appUser) {
         return appUserRepository.save(appUser);
     }
 
-    // Update existing user
     public Optional<AppUser> updateUser(int id, AppUser updatedUser) {
         return appUserRepository.findById(id).map(user -> {
             user.setUserName(updatedUser.getUserName());
@@ -54,7 +50,6 @@ public class UserService implements UserDetailsService {
         });
     }
 
-    // Delete user by ID
     public void deleteUser(int id) {
         appUserRepository.deleteById(id);
     }

@@ -12,26 +12,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api/properties/booking")
+@RequestMapping("/api/property/booking")
 public class BookingController {
 
     @Autowired
     private BookingService bookingService;
 
+    //TODO:GET Booking by UserId
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BookingDTO>> getBookmarksByUserId(@PathVariable int userId) {
+    public ResponseEntity<List<BookingDTO>> getBookingsByUserId(@PathVariable int userId) {
         List<BookingDTO> bookings = bookingService.findByUserId(userId);
         if (bookings.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.ok(bookings);
     }
+
+    //TODO:GET Booking by PropertyId
     @GetMapping("/property/{propertyId}")
-    public ResponseEntity<List<BookingDTO>> getBookmarksByPropertyId(@PathVariable int propertyId) {
+    public ResponseEntity<List<BookingDTO>> getBookingsByPropertyId(@PathVariable int propertyId) {
         List<BookingDTO> bookings = bookingService.findByPropertyId(propertyId);
         if (bookings.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -39,15 +44,18 @@ public class BookingController {
         return ResponseEntity.ok(bookings);
     }
 
+    //TODO:Create Booking
     @PostMapping("/create")
-    public ResponseEntity<String> createBooking(@RequestBody Booking bookingRequestDTO) {
+    public ResponseEntity<Map<String,String>> createBooking(@RequestBody Booking bookingRequestDTO) {
         try {
             String response = bookingService.bookProperty(bookingRequestDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            Map<String,String> booking=new HashMap<>();
+            booking.put("message",response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(booking);
         } catch (PropertyAlreadyBookedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         } catch (PropertyNotFoundException | UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }

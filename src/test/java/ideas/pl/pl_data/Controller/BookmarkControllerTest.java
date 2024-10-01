@@ -68,10 +68,10 @@ class BookmarkControllerTest {
     void saveBookmark_WhenBookmarkIsSaved() {
 
         AppUser mockUser = new AppUser();
-        mockUser.setUserId(1);  // Set mock properties
+        mockUser.setUserId(1);
 
         Property mockProperty = new Property();
-        mockProperty.setPropertyId(100);  // Set mock properties
+        mockProperty.setPropertyId(100);
 
         Bookmark bookmark = new Bookmark(1, mockUser, mockProperty);
         when(bookmarkService.saveBookmark(bookmark)).thenReturn(true);
@@ -89,10 +89,10 @@ class BookmarkControllerTest {
     void saveBookmark_WhenBookmarkAlreadyExists() {
 
         AppUser mockUser = new AppUser();
-        mockUser.setUserId(1);  // Set mock properties
+        mockUser.setUserId(1);
 
         Property mockProperty = new Property();
-        mockProperty.setPropertyId(100);  // Set mock properties
+        mockProperty.setPropertyId(100);
 
         Bookmark bookmark = new Bookmark(1, mockUser, mockProperty);
         when(bookmarkService.saveBookmark(bookmark)).thenReturn(false);

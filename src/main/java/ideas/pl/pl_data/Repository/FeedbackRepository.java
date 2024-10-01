@@ -13,20 +13,9 @@ import java.util.Optional;
 public interface FeedbackRepository extends CrudRepository<Feedback, Integer> {
     List<FeedbackDTO> findBy();
 
-    // Find feedback by ID
-//    @Query("SELECT u FROM Feedback u WHERE u.feedbackId = :id")
-//    Optional<FeedbackDTO> findFeedbackById(@Param("id") int id);
-
     Optional<FeedbackDTO> findByFeedbackId(int feedbackId);
 
-//    @Query("SELECT u FROM Feedback u WHERE u.property.propertyId = :id")
-//    List<FeedbackDTO> findFeedbackByPropertyId(@Param("id") int id);
-
     List<FeedbackDTO> findByProperty_PropertyId(int propertyId);
-
-    // New query to check feedback by property ID and user ID
-//    @Query("SELECT u FROM Feedback u WHERE u.property.propertyId = :propertyId AND u.user.userId = :userId")
-//    List<FeedbackDTO> findFeedbackByPropertyIdAndUserId(@Param("propertyId") int propertyId, @Param("userId") int userId);
 
     List<FeedbackDTO> findByProperty_PropertyIdAndUser_UserId(int propertyId, int userId);
 

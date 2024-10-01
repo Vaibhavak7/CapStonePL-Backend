@@ -16,10 +16,6 @@ public class PropertyService {
     @Autowired
     private PropertyRepository propertyRepository;
 
-    // Get all properties as DTOs
-//    public List<PropertyDTO> getAllProperties1() {
-//        return propertyRepository.findAllPropertiesAsDTO();
-//    }
     public List<PropertyDTO> getAllProperties() {
         return propertyRepository.findBy();
     }
@@ -58,14 +54,6 @@ public class PropertyService {
         });
     }
 
-    // Update Property
-//    public Optional<Property> updateProperty1(int propertyId, Property updatedProperty) {
-//        return propertyRepository.findById(propertyId).map(existingProperty -> {
-//            // Copy properties from updatedProperty to existingProperty, ignoring propertyId
-//            BeanUtils.copyProperties(updatedProperty, existingProperty, "propertyId");
-//            return propertyRepository.save(existingProperty);
-//        });
-//    }
     public List<String> featuers()
     {
         return propertyRepository.findByFeatuers();

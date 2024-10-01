@@ -41,7 +41,7 @@ class BookingServiceTest {
     void findByUserId_ShouldReturnBookings_WhenFound() {
         int userId = 1;
         List<BookingDTO> mockBookings = new ArrayList<>();
-        mockBookings.add(mock(BookingDTO.class)); // Add a mock BookingDTO
+        mockBookings.add(mock(BookingDTO.class));
 
         when(bookingRepository.findByUser_UserId(userId)).thenReturn(mockBookings);
 
@@ -56,23 +56,19 @@ class BookingServiceTest {
 
         Booking bookingRequest = new Booking();
         Property mockProperty = mock(Property.class);
-        bookingRequest.setProperty(mockProperty); // Mock Property
-        when(mockProperty.getPropertyId()).thenReturn(1); // Set a sample property ID
+        bookingRequest.setProperty(mockProperty);
+        when(mockProperty.getPropertyId()).thenReturn(1);
         bookingRequest.setStartDate(LocalDate.now());
         bookingRequest.setEndDate(LocalDate.now().plusDays(2));
 
-        // Simulate existing booking for the same property and dates
         List<Booking> existingBookings = new ArrayList<>();
-        existingBookings.add(mock(Booking.class)); // Simulate existing booking
+        existingBookings.add(mock(Booking.class));
 
-        // When the repository method is called, return the existing bookings
         when(bookingRepository.findByPropertyId(1, bookingRequest.getStartDate(), bookingRequest.getEndDate()))
                 .thenReturn(existingBookings);
 
-        // Assert that the exception is thrown
         assertThrows(PropertyAlreadyBookedException.class, () -> bookingService.bookProperty(bookingRequest));
 
-        // Verify that the repository method was called and save was never called
         verify(bookingRepository, times(1)).findByPropertyId(1, bookingRequest.getStartDate(), bookingRequest.getEndDate());
         verify(bookingRepository, never()).save(any(Booking.class)); // Ensure save was never called
     }
@@ -81,17 +77,17 @@ class BookingServiceTest {
     @Test
     void bookProperty_ShouldReturnSuccess_WhenBookingIsValid() {
         Booking bookingRequest = new Booking();
-        bookingRequest.setProperty(mock(Property.class)); // Mock Property
-        bookingRequest.getProperty().setPropertyId(1); // Set a sample property ID
+        bookingRequest.setProperty(mock(Property.class));
+        bookingRequest.getProperty().setPropertyId(1);
         bookingRequest.setStartDate(LocalDate.now());
         bookingRequest.setEndDate(LocalDate.now().plusDays(2));
 
         when(bookingRepository.findByPropertyId(1, bookingRequest.getStartDate(), bookingRequest.getEndDate()))
-                .thenReturn(new ArrayList<>()); // No existing bookings
+                .thenReturn(new ArrayList<>());
 
         String result = bookingService.bookProperty(bookingRequest);
 
         assertEquals("Booking successful", result);
-        verify(bookingRepository, times(1)).save(bookingRequest); // Ensure save was called
+        verify(bookingRepository, times(1)).save(bookingRequest);
     }
 }

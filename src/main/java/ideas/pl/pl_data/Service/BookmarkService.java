@@ -17,34 +17,29 @@ public class BookmarkService {
 
     public List<BookmarkDTO> findByUser(int id) {
         return bookmarkRepository.findByUser_UserId(id);
-//        return bookmarkRepository.findById(id);
     }
     public boolean saveBookmark(Bookmark bookmark) {
-        // Check if the bookmark already exists
         Optional<Bookmark> bookmarks = bookmarkRepository.findByUser_UserIdAndProperty_PropertyId(bookmark.getUser().getUserId(), bookmark.getProperty().getPropertyId());
         boolean exists = bookmarks.isPresent();
         if (exists) {
-            return false; // Bookmark already exists
+            return false;
         }
 
-        // Save the new bookmark
         bookmarkRepository.save(bookmark);
-        return true; // Successfully saved
+        return true;
     }
 
     public boolean deleteBookmark(int userId, int propertyId) {
         Optional<Bookmark> optionalBookmark = bookmarkRepository.findByUser_UserIdAndProperty_PropertyId(userId, propertyId);
 
         if (optionalBookmark.isPresent()) {
-            // Extract the Bookmark entity from the Optional
             Bookmark bookmark = optionalBookmark.get();
 
-            // Delete the Bookmark
-            bookmarkRepository.delete(bookmark);  // You can also use deleteById if you just need the ID
+            bookmarkRepository.delete(bookmark);
 
-            return true; // Successfully deleted
+            return true;
         } else {
-            return false; // Bookmark not found
+            return false;
         }
     }
 

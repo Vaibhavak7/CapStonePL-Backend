@@ -8,15 +8,6 @@ import java.util.List;
 
 public interface PropertyDTO {
 
-//    public List<Booking> getBookings();
-//
-//
-//    public List<Bookmark> getBookmarks();
-//
-//
-//    public List<Feedback> getFeedbacks();
-
-
     public int getPropertyId();
 
     public Owner getOwner();

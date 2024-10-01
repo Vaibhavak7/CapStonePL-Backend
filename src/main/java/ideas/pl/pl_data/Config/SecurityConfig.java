@@ -32,7 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/login", "api/users/register", "/h2-console/**").permitAll()
                         .requestMatchers("/api/properties","/api/properties/**","/feedbacks/**","/api/users","/api/users/**").permitAll() // Allow public access to /api/properties
                         .requestMatchers("/owner/**").hasRole("OWNER")
-                        .requestMatchers("/users/**").hasRole("USER")
+                        .requestMatchers("/api/users/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
@@ -46,10 +46,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService);
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

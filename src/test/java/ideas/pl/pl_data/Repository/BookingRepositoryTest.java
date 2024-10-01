@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@ActiveProfiles("test") // Use a test profile to configure your database if necessary
+@ActiveProfiles("test")
 class BookingRepositoryTest {
 
     @Autowired
@@ -38,10 +38,8 @@ class BookingRepositoryTest {
         user.setEmail("test@example.com");
         user = userRepository.save(user);
 
-        // Create and save a property for testing
         property = new Property();
         property.setPropertyName("Test Property");
-        // Set other necessary property fields here
         property = propertyRepository.save(property);
 
 

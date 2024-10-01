@@ -2,6 +2,6 @@ package ideas.pl.pl_data.Projection;
 
 public interface BookingProjection {
     int getFeedbackId();
-    String getComments();  // Only retrieve comments
+    String getComments();
     int getRating();
 }
